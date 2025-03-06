@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旋转的图片效果</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .rotating-image {
+            width: 200px;
+            height: 200px;
+            animation: rotate 4s linear infinite;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .rotating-image:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="img/Totem_of_Undying.png" alt="旋转的图片" class="rotating-image">
+    </div>
+</body>
+</html>
