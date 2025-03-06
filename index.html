@@ -3,26 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>旋转的图片效果</title>
+    <title>不朽图腾效果</title>
     <style>
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #f0f0f0;
+            padding: 20px;
+            gap: 80px;
+            flex-wrap: wrap;
+        }
+
+        .player-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
 
         .rotating-image {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             animation: rotate 4s linear infinite;
             transition: transform 0.3s ease;
             transform-style: preserve-3d;
         }
 
+        .player-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
         .rotating-image:hover {
             animation-play-state: paused;
+        }
+
+        .player-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         @keyframes rotate {
@@ -36,8 +60,42 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="img/Totem_of_Undying.png" alt="旋转的图片" class="rotating-image">
-    </div>
+    <div class="container" id="playerContainer"></div>
+    <script>
+        async function loadUsers() {
+            try {
+                const response = await fetch('user/');
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const links = Array.from(doc.querySelectorAll('a'))
+                    .filter(a => a.href.endsWith('.jpg'));
+                
+                const container = document.getElementById('playerContainer');
+                links.forEach(link => {
+                    const playerGroup = document.createElement('div');
+                    playerGroup.className = 'player-group';
+                    
+                    const totemImg = document.createElement('img');
+                    totemImg.src = 'img/Totem_of_Undying.png';
+                    totemImg.alt = '不朽图腾';
+                    totemImg.className = 'rotating-image';
+                    
+                    const avatarImg = document.createElement('img');
+                    avatarImg.src = 'user/' + link.textContent;
+                    avatarImg.alt = '玩家头像';
+                    avatarImg.className = 'player-avatar';
+                    
+                    playerGroup.appendChild(totemImg);
+                    playerGroup.appendChild(avatarImg);
+                    container.appendChild(playerGroup);
+                });
+            } catch (error) {
+                console.error('加载用户失败:', error);
+            }
+        }
+        
+        window.addEventListener('load', loadUsers);
+    </script>
 </body>
 </html>
