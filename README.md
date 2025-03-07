@@ -26,7 +26,7 @@
 
 1. 将项目克隆到本地web服务器目录
 2. 在`user/`目录中放置用户头像（jpg格式）
-3. 通过web服务器访问index.html
+3. 通过web服务器访问（cd ProjectDir && python -m http.server 8000）
 
 ## 交互效果
 - 图标会自动进行3D旋转
